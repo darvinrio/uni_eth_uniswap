@@ -1,9 +1,5 @@
 from web3 import Web3
 
-currentBlock = 0
-
-lastWeekBlock = 0
-
 
 def blockNum():
     secsInWeek = 604800
@@ -14,9 +10,10 @@ def blockNum():
     web3 = Web3(Web3.HTTPProvider(eth))
 
     if(web3.isConnected()):
-        print("connected")
+        print("connected to Blockchain")
     else:
-        print('not connected')
+        print('not connected to Blockchain')
+        print('exiting code')
         exit()
 
     currentBlock = web3.eth.block_number

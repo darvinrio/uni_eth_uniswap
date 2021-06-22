@@ -10,13 +10,15 @@ import calc
 #----------------------------------
 
 # get the current block and block approximately one week before
-blocks = block.blockNum()
-c = blocks["current"]
-l = blocks["lastWeek"]
+# blocks = block.blockNum()
+c = 12684280
+secsInWeek = 604800
+oneBlock = 12
+blockHis = secsInWeek/oneBlock
+l = int(c - blockHis)
 
 # query first 1000 swaps from latest block
 rJSON = q.query(c)
-
 # extract swap data from query response
 swaps = rJSON['data']['swaps']
 
@@ -36,9 +38,12 @@ while tempB > l :
     tempB = int(t_df.iloc[999,12])
     out = df.append(t_df)
 
+out.to_csv('swaps.csv')
+print("swaps.csv Done")
+
 # assume WETH is base currency 
 
 calc.main()
 
-print("Done")
+print("output.csv Done")
 print(" Liquidity : " + out.iloc[1,8] + " UNI + " + out.iloc[1,9] + " ETH")

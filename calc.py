@@ -3,7 +3,6 @@ import multiprocessing as mp
 
 cpu = mp.cpu_count()
 
-df = pd.read_csv('swaps.csv')
 
 
 def calc(row):
@@ -31,13 +30,15 @@ def calc(row):
         'transaction.id' : row[15],
         'block number' : row[14]        
     }
+    #print(outDict)
 
     return outDict
+def main():
+    df = pd.read_csv('swaps.csv')
+    with mp.Pool(cpu) as pool :
+        clean = pool.map(calc, df.itertuples(name=None))
 
+    d = pd.DataFrame(clean)
+    d.to_csv('output.csv')
 
-with mp.Pool(cpu) as pool :
-    out = pool.map(calc, df.itertuples(name=None))
-
-d = pd.DataFrame(out)
-
-d.to_csv('output.csv')
+#main()
